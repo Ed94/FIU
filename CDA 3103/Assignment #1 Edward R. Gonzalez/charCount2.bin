@@ -1,0 +1,42 @@
+;  PROGRAMMER:  Edward R. Gonzalez  123-45-6789
+;
+;  CLASS:       COP 2210-02   MW 11:00 a.m.
+;
+;  INSTRUCTOR:  Norman Pestaina  ECS 364
+;
+;  ASSIGNMENT:  #1 Arithmetic & Simple I/O.   DUE Wendsday 4/5 Midnight.
+;
+; CERTIFICATION: I certify that this work is my own and that
+;                 none of it is the work of any other person.
+;
+
+
+0011000000000000   	;Set PC to x3000.
+0010101000011000	;Set R5 to value to jump store at x3500.														:: Take PC to program.
+0101010010100000   	;AND, dest is R2, src 1 is R2, src2 is immediate and its 00000 :: Clear R2.
+0010011000010001   	;LD   , dest is R3, src x3014													:: Load R3 with x3100 where verse is located.
+1111000000100011   	;Trap, empty, IN            														:: Take in a character. Stored in R0.
+0110001011000000   	;LDR , dest is R1, base is 3, offset is 0.									:: Load something in to R1.
+0001100001111100   	;ADD, dest is R4, src 1 is R1, i, 11100			                        :: Add negative 4 to R1 and put the result in R4.
+0000010000001001   	;Brach to x300C if zero.
+1001001001111111   	;Not  , R1, R1, 111111															:: Complement R1.
+0001001001100001   	;ADD, R1, R1, i, 00001														:: Incrament R1.
+0001001001000000   	;ADD, R1, R1, R0																:: Add R0 to R1.
+0000101000000010   	;Bran, x300F											:: Branch if negative or postive to x300B.
+0000111000001010	;BRN, x3016
+0001010010100001   	;ADD, R2, R2, i, 00001														:: Incrament R2.
+0001011011100001   	;ADD, R3, R3, i, 00001														:: Incrament R3.
+0110001011000000   	;LDR , R1, R3, 000000															:: Load 
+0000111111110101   	;Bran, nzp, 111110110 --> x3004
+0010000000000100   	;LD   ,  R0, 000000100 --> x3013
+0001000000000010   	;ADD, R0, R0, R2
+1111000000100001   	;Trap, empty, OUT
+1111000000100101	;Trap, Halt
+0011000100000000	;ST R0, 2F13
+0000000000110000
+
+;Store Subroutine
+0111011101000000	;Store where R5 + PC points.
+0001101101100001	;Increment R5.
+0000111111110011	;BRNZP x3005
+0011010100000000	; x3500...

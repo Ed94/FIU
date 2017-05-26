@@ -1,0 +1,40 @@
+i;  PROGRAMMER:  Edward R. Gonzalez  123-45-6789
+;
+;  CLASS:       COP 2210-02   MW 11:00 a.m.
+;
+;  INSTRUCTOR:  Norman Pestaina  ECS 364
+;
+;  ASSIGNMENT:  #1 Arithmetic & Simple I/O.   DUE Wendsday 4/5 Midnight.
+;
+; CERTIFICATION: I certify that this work is my own and that
+;                 none of it is the work of any other person.
+;
+
+
+;Enter x3000 for the program’s load-address as the first line of the program.          : 
+;Enter x3100 for the starting address of the file in the empty line (address x3012)   :
+;Include a Program Id Paragraph: http://users.cis.fiu.edu/~pestaina/asmpip.txt      : check.
+;Use the LC3Edit B button to translate your program into charCount1.obj.               :
+
+
+0011000000000000   ;Set PC to x3000.
+0101010010100000   ;AND, dest is R2, src 1 is R2, src2 is immediate and its 00000
+0010011000010000   ;LD   , dest is R3, src x3012
+1111000000100011   ;Trap, empty, trapvect
+0110001011000000   ;LDR , dest is R1, base is 3, offset is 0.
+0001100001111100   ;ADD, dest is R4, src 1 is R1, i, 11100 signed?
+0000010000001000   ;Bran, zero, 000001000 --> x300E
+1001001001111111   ;Not  , R1, R1, 111111
+0001001001100001   ;ADD, R1, R1, i, 00001
+0001001001000000   ;ADD, R1, R1, 0, 00000
+0000101000000001   ;Bran, n p, 000000001 --> x300B
+0001010010100001   ;ADD, R2, R2, i, 00001
+0001011011100001   ;ADD, R3, R3, i, 00001
+0110001011000000   ;LDR , R1, R3, 000 000
+0000111111110110   ;Bran, nzp, 111110110 --> x3004
+0010000000000100   ;LD   ,  
+0001000000000010
+1111000000100001
+1111000000100101
+0011000100000000
+0000000000110000

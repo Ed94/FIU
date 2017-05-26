@@ -1,0 +1,84 @@
+;  PROGRAMMER:  Edward R. Gonzalez  123-45-6789
+;
+;  CLASS:       COP 2210-02   MW 11:00 a.m.
+;
+;  INSTRUCTOR:  Norman Pestaina  ECS 364
+;
+;  ASSIGNMENT:  #1 Arithmetic & Simple I/O.   DUE Wendsday 4/5 Midnight.
+;
+; CERTIFICATION: I certify that this work is my own and that
+;                 none of it is the work of any other person.
+;
+
+;Character Counter 3
+0011000000000000   	;Set PC to x3000.
+
+0010101000011100	;Set R5 to value to jump store at x3500.
+0101010010100000   	;Clear R2.
+
+0010011000010101   	;LD   , dest is R3, src x3014		
+1111000000100011   	;Trap, empty, IN            													
+
+0110001011000000   	;LDR , dest is R1, base is 3, offset is 0.								
+0001100001111100   	;ADD, dest is R4, src 1 is R1, i, 11100
+
+0000010000001101   	;Brach to x300C if zero.
+
+1001001001111111   	;Not  , R1, R1, 111111					
+0001001001100001   	;ADD, R1, R1, i, 00001			
+0001001001000000   	;ADD, R1, R1, R0
+
+0000101000000101   	;Bran, x3010
+
+0001110110100000	;Set focus to R6
+0000001000010001	;Branch if R6 is positive.
+0000000000000000	; Nothing.
+
+0001010010100001   	;ADD, R2, R2, i, 00001
+0000111000001010	;BRN, x301A						
+0001011011100001   	;ADD, R3, R3, i, 00001														
+0110001011000000   	;LDR , R1, R3, 000000
+
+0000111111110010   	;Bran, nzp, 111110110 --> x3005
+
+0000111000000000	;Branch to display result
+0010000000000100   	;LD   ,  R0, 000000100 --> x3013
+0001000000000010   	;ADD, R0, R0, R2
+1111000000100001   	;Trap, empty, OUT
+1111000000100101	;Trap, Halt
+0011000100000000	;ST R0, 2F13
+0000000000110000
+
+;Store Function
+0111011101000000	;Store where R5 + PC points.
+0001101101100001	;Increment R5.
+0000111111110011	;BRNZP x300F
+0011010100000000	; x3500...
+
+;CountDown Function
+0010110000000100	;Load R2 counter into R6
+0001110110101010	;Decrement R6
+0011110000000010	;Store R6 into 
+0000010000000000	;Branch if zero
+0101110110100000	;Clear R6
+0000111111101011	;Branch Back x300F.
+0000000000001010	;10 R2 Counter
+
+;Double digit Function
+0101001000110000	;Clear R2
+0001110110101010	;Set R6 to 10.
+0011110000000010	;Store R6 10 R2 Counter.
+0010110000000100	;Load second postional into R2
+0001001001100001	;Add 1 to R2.
+0011001000000000	;Store R2 into second postional
+0101001000110000	;Clear R2
+0000111000000000	;Branch back to Clear R6.
+0000000000000000	;Second postional Counter
+
+;Display Result
+0010110000000100	;Load second positonal into R6
+0000000000000000	;Print R6
+0000000000000000	;Focus on R2
+0000000000000000	;Print R2
+0000000000000000	;Branch back to halt.
+
