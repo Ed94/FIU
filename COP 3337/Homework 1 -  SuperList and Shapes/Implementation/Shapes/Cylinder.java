@@ -17,16 +17,12 @@ public class Cylinder extends Circle
 	}
 	
 	//Public
-	@Override
-	public double getArea()   //Returns surface area.
-	{ return ( 2.0 * super.getArea() + (2.0 * Math.PI * super.getRadius()) * length ); }   //See formula for surface area of cylinder.
-	
 	public double getLength()
 	{ return length; }
-
+	
 	@Override
-	public double getVolume()
-	{ return ( super.getVolume() * length ); }
+	public double getArea  () { return ( 2.0 * super.getArea() + (2.0 * Math.PI * super.getRadius()) * length ); }
+	public double getVolume() { return ( super.getVolume() * length )										   ; }
 	
 	//Private
 	private double length;
