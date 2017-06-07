@@ -1,7 +1,5 @@
 package shape;
 
-import java.util.Comparator;
-
 /**
  * Created by francisco on 5/23/17.
  */

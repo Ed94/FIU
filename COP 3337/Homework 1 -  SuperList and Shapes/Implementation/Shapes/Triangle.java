@@ -2,8 +2,10 @@ package shape;
 
 public class Triangle extends AbstractShape
 {
-	public Triangle(double sideA, double sideB, double sideC)
+	public Triangle(String name, ShapeColor color, double sideA, double sideB, double sideC)
 	{
+		this.name  = name ;
+		this.color = color;
 		this.sideA = sideA;
 		this.sideB = sideB;
 		this.sideC = sideC;
@@ -11,6 +13,9 @@ public class Triangle extends AbstractShape
 	
 	public Triangle(Triangle triangle)
 	{
+		this.name  = triangle.getName ();
+		this.color = triangle.getColor();
+		
 		this.sideA = triangle.getSide(Sel.A);
 		this.sideB = triangle.getSide(Sel.B);
 		this.sideC = triangle.getSide(Sel.C);
@@ -78,6 +83,16 @@ public class Triangle extends AbstractShape
 	@Override
 	public String getName() 
 	{ return this.name; }
+	
+	
+	@Override
+	public String toString()
+	{
+		String className = this.getClass().getName();   //Name of the class
+        
+		return "[ ClassName "+ className+ " [ Name = "  + name + " ; Color = " + color+ " ; Dimensions = "+ dimensions()+ " ; Side A = "+ sideA
+										+ " ; Side B = "+ sideB+ " ; Side C = "+ sideC+ " ; Area = "      + getArea   ()+ "] ]";
+	}
 	
 	@Override
 	public ShapeColor getColor() 

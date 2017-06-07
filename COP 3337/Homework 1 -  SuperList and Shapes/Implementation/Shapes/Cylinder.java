@@ -24,6 +24,20 @@ public class Cylinder extends Circle
 	public double getArea  () { return ( 2.0 * super.getArea() + (2.0 * Math.PI * super.getRadius()) * length ); }
 	public double getVolume() { return ( super.getVolume() * length )										   ; }
 	
+	@Override
+	public int dimensions()
+	{ return 3; }
+	
+	@Override
+	public String toString()
+	{
+		String className = this.getClass().getName();   //Name of the class
+        
+		return "[ ClassName "+ className+ " [ Name = "    + getName    ()+ " ; Color = " + getColor ()+ " ; Dimensions = "+ dimensions()
+		                                + " ; Diameter = "+ getDiameter()+ " ; Radius = "+ getRadius()+ " ; Length = "    + getLength ()
+		                                + " ; Area = "    + getArea    ()+ " ; Volume = "+ getVolume ()+ "] ]";
+	}
+	
 	//Private
 	private double length;
 }

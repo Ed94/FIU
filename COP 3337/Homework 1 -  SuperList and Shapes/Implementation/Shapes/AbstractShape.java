@@ -46,7 +46,6 @@ public abstract class AbstractShape implements Shape, Comparable<AbstractShape>
     {   
         String className = this.getClass().getName();   //Name of the class
         
-        return "[ className "+ className+ " [Area= " + this.getArea()
-              +" ; Name = "+ this.getName()+ " ; Color = "+ this.getColor()+ "] ]";
+        return "[ ClassName "+ className+ " [ Name= "  + this.getName ()+ " ; Color = "+ this.getColor()+ " ; Area = "+ this.getArea()+ "] ]";
     }
 }

@@ -41,6 +41,15 @@ public class Rectangle extends AbstractShape
     { return name; }
     
     @Override
+    public String toString()
+    {
+    	String className = this.getClass().getName();   //Name of the class
+        
+		return "[ ClassName "+ className+ " [ Name = "  + name  + " ; Color = "+ color+ " ; Dimensions = "+ dimensions()
+										+ " ; Height = "+ height+ " ; Width = "+ width+ " ; Area = "      + getArea   ()+ "] ]";
+    }
+    
+    @Override
     public void setColor(ShapeColor color) { this.color = color; }
     public void setName (String name	 ) { this.name  = name ; }
     

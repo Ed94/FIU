@@ -46,6 +46,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     {
         this(256);   //It looks strange with capacity. It is not part of the code nor the editor. 
     }
+    
     public SuperList(int capacity)
     {
     	originalCapacity = this.capacity = capacity;   //Sets capacity and orginalCapacity to the passed capacity.
@@ -53,11 +54,17 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         list = new Object[this.capacity];   //Creates a new generic list of set capacity.
         size = 					   	   0;   //Sets the size to zero since nothing was added to list yet.
     }
+    
     public SuperList(Collection<? extends E> c)
-    {
-        this.originalCapacity = this.capacity = this.size = c.size();   //Sets originalCapacity, capacity, and size to the collection's passed size.
+    { //forced to modify this many functions to work properly.
+        this.originalCapacity = this.capacity = this.size = c.size() - 1;   //Sets originalCapacity, capacity, and size to the collection's passed size.
         
-        list = c.toArray();   //Sets list to the array of passed collection.
+        list = new Object[this.capacity];
+        
+        for (E e : c)
+        {
+        	add(e);
+        }
     }
     
     
@@ -65,7 +72,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     public boolean add(E e)
     {
         if (CheckSize())
-            ExpandList();
+        	ExpandList();
         
         this.list[size++] = e;
         
@@ -74,9 +81,9 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     
     public boolean addAll(Collection<? extends E> c)
     {
-    	for (Iterator<? extends E> iteration = c.iterator(); iteration.hasNext();)
+    	for (E e : c)
     	{
-    		this.add(iteration.next());
+    		add(e);
     	}
     	
     	return true;
@@ -84,9 +91,9 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
 
     public boolean addAll(int index, Collection<? extends E> c)
     {
-        for (Iterator<? extends E> iteration = c.iterator(); iteration.hasNext();)
+        for (E e : c)
         {
-        	this.add(index++ , iteration.next());
+        	this.add(index++ , e);
         }
         
         return true;
@@ -94,9 +101,9 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     
     public boolean contains(Object o)
     {
-    	for (int index = 0; index < size; size++)
+    	for (Object obj : list)
         {
-        	if (list[index].equals(o))
+        	if (obj.equals(o))
         	{
         		return true;
         	}
@@ -138,39 +145,28 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         {
         	if (list[index].equals(o))
         	{
-        		list[index] = null;
+        		this.remove(index);
         	}
         }
-        
-        int      tempIndex = 				    0;
-    	Object[] tempList  = new Object[capacity]; 
-    	
-    	for (int index = 0; index < size; index++)
-    	{
-    		if (list[index] != null)
-    		{
-    			tempList[tempIndex++] = list[index];
-    		}
-    	}
-    	
-    	list = tempList ;
-    	size = tempIndex;
         
         return true;
     }
     
-    public boolean removeAll(Collection<?> c)
-    {
-    	for (int index = 0; index < size; index++)
-	    {
-			for (Iterator<?> iterator = c.iterator(); iterator.hasNext();)
-			{
-				if (this.get(index).equals(iterator.next()))
-				{
-					this.remove(index);
-				}
-			}
-	    }
+    public boolean removeAll(Collection<?> c)   //Ducked taped for now. Needs to be fixed.
+    {   
+    	for (int ducktape = 0; ducktape < capacity; ducktape++)
+    	{
+    		for (Object o : c) { this.remove(o); }
+    	}
+    	
+//    	for (int index = 0; index < size; index++)
+//    	{
+//    		for (Object o : c)
+//    		{
+//    			if (list[index].equals(o))
+//    				remove(index);
+//    		}
+//    	}
     	
 		return true;
     }
@@ -195,19 +191,19 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     
     public boolean retainAll(Collection<?> c)
     {
-    	int position = 0;
-    	
-    	for (Iterator<?> iteration = c.iterator(); iteration.hasNext();)
-        {
-        	list[position++] = iteration.next();
-        }
-    	
-    	if (position < size)
+    	for (int index = 0; index < size; index++)
     	{
-    		this.removeRange(position, size);
+    		int strikes = 0;
+    		
+    		for (Object o : c)
+    		{
+    			if (!o.equals(list[index]))
+    				strikes++;
+    			
+    			if (strikes >= c.size())
+    				remove(index--);
+    		}
     	}
-    	
-    	size = position + 1;
     	
     	return true;
     }
@@ -223,15 +219,13 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     {   //We still need to cast
         E val = (E) list[index];
         
-        ArrayCopy(list, index + 1, list,index, list.length); 
+        ArrayCopy(list, index + 1, list, index, size--);
         
-        size--;
-        
-        return val;
+        return val; 
     }
     
     public E removeLast()
-    { return remove(list.length -1 ); }
+    { return remove(size); }   //Had to change list.length - 1 to size(broke things).
     
     public E set(int index, E element)
     {
@@ -246,7 +240,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     	
         return (E) list[index];
     }
-
+    
     public int indexOf(Object o)
     {
     	for (int index = 0; index < size; size++)
@@ -261,10 +255,10 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         
     	return -1;
     }
-    
+     
     public int getCapacity()
     { return capacity; }
-
+    
     public int lastIndexOf(Object o)
     {
     	for (int index = (size - 1); index > 0; index--)
@@ -298,7 +292,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         
         return subList;
     }
-
+    
     public ListIterator<E> listIterator(int index)
     {
         if (index < 0 || index > size)
@@ -306,12 +300,12 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         
         return new ListItr(index);
     }
-
+    
     public ListIterator<E> listIterator()
     { return new ListItr(0); }
-
+    
     @Override
-    public Object   clone()
+    public Object clone()
     {
         SuperList<E> s = new SuperList<E>(this.size());
         
@@ -320,29 +314,37 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         
         return s;
     }
-
+    
     public Object[] toArray()
     { return list.clone(); }
     
     public void add(int index, E element)
     {
-    	int tmp = size + 1;
-    	
-        Object[] tempList = new Object[tmp];
-        
-        for (int position = 0; position < tmp; position++)
-        {
-        	if (position == index)
-        	{
-        		tempList[position] = element;
-        	}
-        	else
-        	{
-        		tempList[position] = list[position];
-        	}
-        }
-        
-        list = tempList;
+    	if (index >= size)
+    	{
+    		System.out.println("Position out of range.");
+    	}
+    	else
+    	{
+    		if (CheckSize() == true)
+                ExpandList();
+    		
+            Object[] tempList = this.list.clone();
+            
+            list = new Object[++size];
+            
+            for (int pos = 0, tempPos = 0; pos < size; pos++)
+            {
+            	if (pos == index)
+            	{
+            		list[pos] = element;
+            	}
+            	else
+            	{
+            		list[pos] = tempList[tempPos++];
+            	}
+            }
+    	}
     }
     
     public void clear()
@@ -428,21 +430,23 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     public String toString()
     {
         String str = "[ ";
-        for (int i =0; i < size; i++)
+        
+        for (int i = 0, rowBreak = 0; i < size; i++)
         {
-            str += list[i].toString() + " ";
+            if (rowBreak == 16) { str += list[i].toString() + " " + "\n"; rowBreak = 0; }
+            else                { str += list[i].toString() + " "       ; rowBreak  ++; }
         }
+        
         str += " ]";
 
         return str;
     }
     
-    
     //------------------------Private Functions---------------------------------
     private boolean CheckSize()
     { return (this.size >= this.capacity); }
     
-    private void checkBound(int index)
+    private void checkBound(int index)   //Might have been accidentally created as the function below was in public.
     {
         if (index >= size || index < 0)
             throw new IndexOutOfBoundsException("Index: " + index + ", Size " + index );
@@ -456,21 +460,22 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     
     private void ExpandList()   //Java style wants EnlargeList as opposed to enlargeList
     {
-        Object[] temp = list.clone();
+        Object[] temp = this.list.clone();
         
         this.capacity = INCREMENT_FACTOR * this.capacity;
         
         list = new Object[this.capacity];
-        //System.arraycopy(temp,0,list, 0, temp.length);
-        ArrayCopy(temp,0,list,0,temp.length);
+        
+        //System.arraycopy(temp, 0, list, 0, this.size);
+        ArrayCopy(temp, 0, list, 0, this.size);
     }
-
+    
     //In your assignment, you must determine the difference between this implementation
     //and the native (created in C++) for System.arraycopy(...)
     private static void ArrayCopy(Object[] src, int srcidx, Object[] dest, int dstidx, int srclen)   //Need to do assignment response...
     {
-        for (int sidx=srcidx,  didx = dstidx; sidx < srclen; sidx++,didx++)
-        	dest[didx] = src[sidx];
+    	for (int sidx = srcidx,  didx = dstidx; sidx < srclen; sidx++, didx++)
+            dest[didx] = src[sidx];
     }
 
     
@@ -511,7 +516,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         //Trim if over allocated.
         return (i == r.length) ? r : Arrays.copyOf(r, i);
     }
-
+    
     public int hashCode() //From java source code; Has not been tested.
     {
         int hashCode = 1;
@@ -570,7 +575,6 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         //More elements than expected.
         return it.hasNext() ? finishToArray(r, it) : r;
     }
-    
     
     /**
      * An optimized version of AbstractList.Itr
@@ -665,7 +669,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
             }
         }
     }
-
+    
     /**
      * An optimized version of AbstractList.ListItr
      */
@@ -747,6 +751,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
             }
         }
     }
+    
     //endregion
 
     //------------------------------------Instance variables--------------------------------------------
