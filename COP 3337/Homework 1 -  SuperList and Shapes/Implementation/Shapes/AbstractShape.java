@@ -11,9 +11,9 @@ public abstract class AbstractShape implements Shape, Comparable<AbstractShape>
         double d = this.getArea() - other.getArea();
         
         if      (isZero(d, 0.00001))
-            return 0;
+            return  0;
         else if (d > 0)
-            return 1;
+            return  1;
         else
             return -1;
     }
@@ -46,6 +46,6 @@ public abstract class AbstractShape implements Shape, Comparable<AbstractShape>
     {   
         String className = this.getClass().getName();   //Name of the class
         
-        return "[ ClassName "+ className+ " [ Name= "  + this.getName ()+ " ; Color = "+ this.getColor()+ " ; Area = "+ this.getArea()+ "] ]";
+        return "[ className "+ className+ " [ Name = " + this.getName()+ " ; Color = "+ this.getColor()+ " ; Area = "+ this.getArea()+ " ] ]";
     }
 }

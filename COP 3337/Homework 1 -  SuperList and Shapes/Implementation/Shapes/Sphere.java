@@ -21,12 +21,14 @@ public class Sphere extends Circle
 	public int dimensions()
 	{ return 3; }
 	
-	@Override
+	
 	public String toString()
 	{
-		String className = this.getClass().getName();   //Name of the class
-        
-		return "[ ClassName "+ className+ " [ Name = "    + getName  ()+ " ; Color = "+getColor()+ " ; Dimensions = "+ dimensions()+ " ; Diameter = "+ getDiameter()
-										+ " ; Radius = "  + getRadius()+ " ; Area = " +getArea ()+ " ; Volume = "    + getVolume ()+ "] ]";
+		String classString = super.toString();
+		
+		return classString.substring(                              0, classString.indexOf("Area") - 3)
+		      +classString.substring(classString.indexOf("Area") - 3, classString.indexOf("]"   )	 )
+		      +"; Volume = "+ getVolume()
+			  +classString.substring(classString.indexOf("]"   ) - 1);
 	}
 }

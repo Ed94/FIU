@@ -22,20 +22,22 @@ public class Cylinder extends Circle
 	
 	@Override
 	public double getArea  () { return ( 2.0 * super.getArea() + (2.0 * Math.PI * super.getRadius()) * length ); }
-	public double getVolume() { return ( super.getVolume() * length )										   ; }
+	public double getVolume() { return ( super.getArea() * length )										       ; }
 	
 	@Override
 	public int dimensions()
 	{ return 3; }
 	
-	@Override
+	
 	public String toString()
 	{
-		String className = this.getClass().getName();   //Name of the class
-        
-		return "[ ClassName "+ className+ " [ Name = "    + getName    ()+ " ; Color = " + getColor ()+ " ; Dimensions = "+ dimensions()
-		                                + " ; Diameter = "+ getDiameter()+ " ; Radius = "+ getRadius()+ " ; Length = "    + getLength ()
-		                                + " ; Area = "    + getArea    ()+ " ; Volume = "+ getVolume ()+ "] ]";
+		String classString = super.toString();
+		
+		return classString.substring(                              0, classString.indexOf("Area") - 3)
+			  +" ; Length = "+ getLength()
+			  +classString.substring(classString.indexOf("Area") - 3, classString.indexOf("]"   )	 )
+			  +"; Volume = " + getVolume()
+			  +classString.substring(classString.indexOf("]"   ) - 1);
 	}
 	
 	//Private

@@ -26,9 +26,9 @@ public class Triangle extends AbstractShape
 	
 	public double getAngle(Sel angle)
 	{
-		if (angle == Sel.A) { return (Math.acos((Math.pow(sideB, 2) + Math.pow(sideC, 2) - Math.pow(sideA, 2)))); }
-		if (angle == Sel.B) { return (Math.acos((Math.pow(sideC, 2) + Math.pow(sideA, 2) - Math.pow(sideB, 2)))); }
-		if (angle == Sel.C) { return (Math.acos((Math.pow(sideA, 2) + Math.pow(sideB, 2) - Math.pow(sideC, 2)))); }
+		if (angle == Sel.A) { return (Math.acos((Math.pow(sideB, 2.0) + Math.pow(sideC, 2.0) - Math.pow(sideA, 2.0)) / ( 2.0  * sideB * sideC)) * (180.0 / Math.PI)); }
+		if (angle == Sel.B) { return (Math.acos((Math.pow(sideC, 2.0) + Math.pow(sideA, 2.0) - Math.pow(sideB, 2.0)) / (sideA *  2.0  * sideC)) * (180.0 / Math.PI)); }
+		if (angle == Sel.C) { return (Math.acos((Math.pow(sideA, 2.0) + Math.pow(sideB, 2.0) - Math.pow(sideC, 2.0)) / (sideA * sideB *  2.0 )) * (180.0 / Math.PI)); }
 		
 		System.out.println("Did not identify angle. Returning negative.");
 		
@@ -54,10 +54,10 @@ public class Triangle extends AbstractShape
 		if (getAngle(Sel.A) == getAngle(Sel.B) || getAngle(Sel.A) == getAngle(Sel.C) || getAngle(Sel.B) == getAngle(Sel.C))
 			return "Triangle Type: Isosceles     Internal Angles: "+ getAngle(Sel.A)+ " "+ getAngle(Sel.B)+ " "+ getAngle(Sel.C);
 		
-		if (getAngle(Sel.A) > 90.0 || getAngle(Sel.B) > 90.0 || getAngle(Sel.C) > 90.0)
+		if (getAngle(Sel.A) > 90 || getAngle(Sel.B) > 90 || getAngle(Sel.C) > 90)
 			return "Triangle Type: Scalene       Internal Angles: "+ getAngle(Sel.A)+ " "+ getAngle(Sel.B)+ " "+ getAngle(Sel.C);
 		
-		return "Could not get classification...";
+		return "Could not get classification...  Internal Angles: "+ getAngle(Sel.A)+ " "+ getAngle(Sel.B)+ " "+ getAngle(Sel.C);
 	}
 	
 	@Override
@@ -85,13 +85,16 @@ public class Triangle extends AbstractShape
 	{ return this.name; }
 	
 	
-	@Override
+	
 	public String toString()
 	{
-		String className = this.getClass().getName();   //Name of the class
-        
-		return "[ ClassName "+ className+ " [ Name = "  + name + " ; Color = " + color+ " ; Dimensions = "+ dimensions()+ " ; Side A = "+ sideA
-										+ " ; Side B = "+ sideB+ " ; Side C = "+ sideC+ " ; Area = "      + getArea   ()+ "] ]";
+		String classString = super.toString();
+		
+        return classString.substring(                              0, classString.indexOf("Area") - 3)
+        	  +" ; Dimensions = "+ dimensions()+ " ; Side A = "+ sideA+ " ; Side B = "+ sideB+ " ; Side C = "+ sideC
+        	  +classString.substring(classString.indexOf("Area") - 3, classString.indexOf("]"   )    )
+        	  +"; "+ getClassification()
+        	  +classString.substring(classString.indexOf("]"   ));
 	}
 	
 	@Override

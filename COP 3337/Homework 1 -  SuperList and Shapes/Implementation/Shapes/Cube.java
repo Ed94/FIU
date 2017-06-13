@@ -18,14 +18,14 @@ public class Cube extends Rectangle
 	public int dimensions()
 	{ return 3; }
 	
-	@Override
-	public String toString()
-	{
-    	String className = this.getClass().getName();   //Name of the class
-        
-		return "[ ClassName "+ className+ " [ Name = "  + getName  ()+ " ; Color = "+ getColor()+ " ; Dimensions = "+ dimensions()
-										+ " ; Height = "+ getHeight()+ " ; Width = "+ getWidth()+ " ; Area = "      + getArea   ()+ " ; Volume = "+ getVolume()+ "] ]";
-	}
+    public String toString()
+    {
+    	String classString = super.toString();
+    	
+		return classString.substring(                       0, classString.indexOf("Area") - 3)
+			  +" ; Area = " + getArea ()+ " ; Volume = "+ getVolume()
+			  +classString.substring(classString.indexOf("]") - 1, classString.length()    );
+    }
 	
 	//Private
 	private double side;

@@ -159,15 +159,6 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     		for (Object o : c) { this.remove(o); }
     	}
     	
-//    	for (int index = 0; index < size; index++)
-//    	{
-//    		for (Object o : c)
-//    		{
-//    			if (list[index].equals(o))
-//    				remove(index);
-//    		}
-//    	}
-    	
 		return true;
     }
     

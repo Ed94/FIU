@@ -16,7 +16,7 @@ public class Circle extends AbstractShape
 		this.radius = circle.getRadius();
 	}
 	
-	//P
+	//Public
 	@Override
 	public double getArea    () { return (Math.PI * Math.pow(radius, 2)); }
 	public double getDiameter() { return radius*2                       ; }
@@ -42,13 +42,13 @@ public class Circle extends AbstractShape
 	public String getName() 
 	{ return name; }
 	
-	@Override
 	public String toString()
 	{
-		String className = this.getClass().getName();   //Name of the class
-        
-		return "[ ClassName "+ className+ " [ Name = "    + getName    ()+ " ; Color = " + getColor ()+ " ; Dimensions = "+ dimensions()
-		                                + " ; Diameter = "+ getDiameter()+ " ; Radius = "+ getRadius()+ " ; Area = "      + getArea   ()+ "] ]";
+		String classString = super.toString();
+		
+        return classString.substring(0, classString.indexOf("Area") - 3)
+        	  +" ; Dimensions = "+ dimensions()+ " ; Diameter = "+ getDiameter()+ " ; Radius = "+ getRadius()
+        	  +classString.substring(classString.indexOf("Area") - 3);
 	}
 	
 	@Override

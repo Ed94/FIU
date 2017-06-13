@@ -40,13 +40,13 @@ public class Rectangle extends AbstractShape
     public String getName()
     { return name; }
     
-    @Override
     public String toString()
     {
-    	String className = this.getClass().getName();   //Name of the class
+    	String classString = super.toString();
         
-		return "[ ClassName "+ className+ " [ Name = "  + name  + " ; Color = "+ color+ " ; Dimensions = "+ dimensions()
-										+ " ; Height = "+ height+ " ; Width = "+ width+ " ; Area = "      + getArea   ()+ "] ]";
+		return classString.substring( 0, classString.indexOf("Area") - 3)
+			  +" ; Dimensions = "+ dimensions()+ " ; Height = "+ height+ " ; Width = "+ width
+			  +classString.substring(classString.indexOf("Area") - 3, classString.length());
     }
     
     @Override
