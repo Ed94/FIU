@@ -56,7 +56,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     }
     
     public SuperList(Collection<? extends E> c)
-    { //forced to modify this many functions to work properly.
+    { //Forced to modify this for functions to work properly.
         this.originalCapacity = this.capacity = this.size = c.size() - 1;   //Sets originalCapacity, capacity, and size to the collection's passed size.
         
         list = new Object[this.capacity];
@@ -135,8 +135,8 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     
     public boolean isEmpty()
     {
-    	if   (size == 0) { return true ; } 
-        else 		     { return false; }
+    	if   (size == 0) { return true ; }
+    	else 		     { return false; }
     }
     
     public boolean remove(Object o)
@@ -216,7 +216,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     }
     
     public E removeLast()
-    { return remove(size); }   //Had to change list.length - 1 to size(broke things).
+    { return remove(size); }   //Had to change list.length - 1 to size(Breaks things).
     
     public E set(int index, E element)
     {
@@ -260,7 +260,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         	}
         }	
     	
-    	System.out.println("Object not found.");
+    	System.out.println("Object not found. Returning negative.");
     	
         return -1;
     }
@@ -276,7 +276,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     {
     	List<E> subList = new SuperList<E>();
     	
-        for (int index = fromIndex; index < toIndex; index++)
+        for (int index = fromIndex; index <= toIndex; index++)
         {
         	subList.add((E) list[index]);
         }
@@ -313,7 +313,7 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     {
     	if (index >= size)
     	{
-    		System.out.println("Position out of range.");
+    		System.out.println("Position out of range. Cannot add to list; continuing...");
     	}
     	else
     	{
@@ -420,12 +420,26 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     @Override
     public String toString()
     {
-        String str = "[ ";
+    	String str = "[ ";
+    	
+        for (int i = 0; i < size; i++)
+        {
+            str += list[i].toString() + " ";
+        }
+        
+        str += " ]";
+
+        return str;
+    }
+    
+    public String toString(int rowLength)
+    {
+    	String str = "[ ";
         
         for (int i = 0, rowBreak = 0; i < size; i++)
         {
-            if (rowBreak == 16) { str += list[i].toString() + " " + "\n"; rowBreak = 0; }
-            else                { str += list[i].toString() + " "       ; rowBreak  ++; }
+            if (rowBreak == rowLength) { str += list[i].toString() + " " + "\n"; rowBreak = 0; }
+            else                       { str += list[i].toString() + " "       ; rowBreak  ++; }
         }
         
         str += " ]";
@@ -481,33 +495,6 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
      * @return Array containing the elements in the given array, plus any
      *         further elements returned by the iterator, trimmed to size.
      */
-    @SuppressWarnings("unchecked")
-    private static <T> T[] finishToArray(T[] r, Iterator<?> it) 
-    {
-        int i = r.length;
-        
-        while (it.hasNext()) 
-        {
-            int cap = r.length;
-            
-            if (i == cap) 
-            {
-                int newCap = cap + (cap >> 1) + 1;
-                
-                //Overflow-conscious code.
-                if (newCap - MAX_ARRAY_SIZE > 0)
-                    newCap = hugeCapacity(cap + 1);
-                
-                r = Arrays.copyOf(r, newCap);
-            }
-            
-            r[i++] = (T)it.next();
-        }
-        
-        //Trim if over allocated.
-        return (i == r.length) ? r : Arrays.copyOf(r, i);
-    }
-    
     public int hashCode() //From java source code; Has not been tested.
     {
         int hashCode = 1;
@@ -516,16 +503,6 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
             hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
 
         return hashCode;
-    }
-    
-    private static int hugeCapacity(int minCapacity) 
-    {
-        if (minCapacity < 0) // overflow
-            throw new OutOfMemoryError("Required array size too large");
-        
-        return (minCapacity > MAX_ARRAY_SIZE) ?
-                Integer.MAX_VALUE :
-                MAX_ARRAY_SIZE;
     }
     
     @SuppressWarnings("unchecked")
@@ -565,6 +542,43 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
         }
         //More elements than expected.
         return it.hasNext() ? finishToArray(r, it) : r;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private static <T> T[] finishToArray(T[] r, Iterator<?> it) 
+    {
+        int i = r.length;
+        
+        while (it.hasNext()) 
+        {
+            int cap = r.length;
+            
+            if (i == cap) 
+            {
+                int newCap = cap + (cap >> 1) + 1;
+                
+                //Overflow-conscious code.
+                if (newCap - MAX_ARRAY_SIZE > 0)
+                    newCap = hugeCapacity(cap + 1);
+                
+                r = Arrays.copyOf(r, newCap);
+            }
+            
+            r[i++] = (T)it.next();
+        }
+        
+        //Trim if over allocated.
+        return (i == r.length) ? r : Arrays.copyOf(r, i);
+    }
+    
+    private static int hugeCapacity(int minCapacity) 
+    {
+        if (minCapacity < 0) // overflow
+            throw new OutOfMemoryError("Required array size too large");
+        
+        return (minCapacity > MAX_ARRAY_SIZE) ?
+                Integer.MAX_VALUE :
+                MAX_ARRAY_SIZE;
     }
     
     /**
@@ -748,11 +762,15 @@ public class SuperList<E> extends AbstractList<E> implements  Cloneable, Collect
     //------------------------------------Instance variables--------------------------------------------
     //Because of limitations with Generics in Java, the recommended option is to use an array of Object.
     //Remember that in Java, an Object is the parent of all objects.
+    private AbstractList<E> parent;
+    
     private Object[] list;
     
     private int size			;
     private int capacity		;
+    private int offset			;
     private int originalCapacity;
+    private int parentOffset	;
 
     // constants
     private static final short INCREMENT_FACTOR = 					  2;

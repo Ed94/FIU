@@ -84,8 +84,6 @@ public class Triangle extends AbstractShape
 	public String getName() 
 	{ return this.name; }
 	
-	
-	
 	public String toString()
 	{
 		String classString = super.toString();
