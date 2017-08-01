@@ -1,0 +1,9 @@
+{
+name        : AName
+state       : true
+startDate   : "1/20/2017"
+endDate     : "4/20/2017"
+openTimes   : "M, W, F" "3:00 pm - 5:00 pm"
+school      : Coral Park Elementary
+lastAttended: "3/24/2017"
+}

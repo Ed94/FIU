@@ -1,0 +1,6 @@
+{
+name        : SchoolName
+schedule    : "W" "2:00pm - 3:00pm"
+members     : 'AName'Something'Special
+memberLeader: AName 
+}
