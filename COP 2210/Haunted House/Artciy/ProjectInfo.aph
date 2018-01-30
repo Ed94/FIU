@@ -1,0 +1,19 @@
+<ProjectInfo Version="1">
+  <Signature>19BDC0A876374B7A963E0BCDEC96DAB93BB4594A6D1D690A40DA3644363D6FC0</Signature>
+  <Content>
+    <Project Guid="6d18962b-539d-4025-ac76-b8d3d32e6a87">
+      <DisplayName Value="Haunted House"/>
+      <DetailName Value="COP2210 Assignment #3"/>
+      <MainProjectGuid Value="6754c9cc-cd3a-4762-871b-49d524342168"/>
+      <IconType Value="0"/>
+      <IdProjectIcon Value="00000000-0000-0000-0000-000000000000"/>
+      <ScmProviderGuid Value="0745c2ee-abe3-451b-934e-7f597f56c0d7"/>
+      <ScmConfiguration Value=""/>
+      <CreationTimeStamp Value="636123249297641376"/>
+      <PartitionHash Value="56D614D9D05783B489A3F230AD4D7EC761B7DEC02DC95554CB812DB90B00BE84"/>
+      <SaveFileVersion Value="53"/>
+      <ProjectType Value="0"/>
+      <IsOnlineProject Value="False"/>
+    </Project>
+  </Content>
+</ProjectInfo>
