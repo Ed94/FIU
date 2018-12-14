@@ -1,0 +1,172 @@
+Assignment #1: Sorting with Binary Search Tree
+
+Through this programming assignment, the students will learn to do the following:
+1. Know how to process command line arguments.
+2. Perform basic file I/O.
+3. Use structs, pointers, and strings.
+4. Use dynamic memory.
+
+
+This assignment asks you to sort the lines of an input file (or from standard input) and print the
+sorted lines to an output file (or standard output). Your program, called bstsort (binary search tree
+sort), will take the following command line arguments:
+
+% bstsort [-c] [-o output_file_name] [input_file_name]
+
+If -c is present, the program needs to compare the strings case sensitive; otherwise, it's case
+insensitive. If the output_file_name is given with the -o option, the program will output the sorted
+lines to the given output file; otherwise, the output shall be the standard output. Similarly, if the
+input_file_name is given, the program will read from the input file; otherwise, the input will be from
+the standard input. You must use getopt() to parse the command line arguments to determine the
+cases. All strings will be no more than 100 characters long.
+
+In addition to parsing and processing the command line arguments, your program needs to do the
+following:
+
+1. You need to construct a binary search tree as you read from input. A binary search tree is a
+binary tree. Each node can have at most two child nodes (one on the left and one on the right),
+both or either one can be empty. If a child node exists, it's the root of a binary search tree (we
+call subtree). Each node contains a key (in our case, it's a string) and a count of how many of
+that string were included. If the left subtree of a node exists, it contains only nodes with keys less
+than the node's key. If the right subtree of a node exists, it contains only nodes with keys greater
+than the node's key. You can look up binary search tree on the web or in your Data Structure
+textbook. Note that you do not need to balance the binary search tree (that is, you can ignore all
+those rotation operations) in this assignment.
+
+2. Initially the tree is empty (that is, the root is null). The program reads from the input file (or stdin)
+one line at a time; If the line is not an empty line and the line is not already in the tree, it should
+create a tree node that stores a pointer to the string and a count of 1 indicating this is the first
+occurrence of that string, and then insert the tree node to the binary search tree. An empty line
+would indicate the end of input for stdin, an empty line or end of file would indicate the end of 
+input for an input file. If the line is not an empty line and the line is already in the tree, increase
+the count for that node indicating that there are multiple instances of that line.
+
+3. You must develop two string comparison functions, one for case sensitive and the other for case
+insensitive. You must not use the strcmp() and strcasecmp() functions provided by the C library.
+You must implement your own version. You will be comparing the ASCII values. Note that using
+ASCII, all capital letters come before all lower case letters.
+
+4. Once the program has read all the input (when EOF is returned or a blank line encountered), the
+program then performs an in-order traversal of the binary search tree to print out all the strings
+one line at a time to the output file or stdout. Next to the line include a count of how many times
+that line appeared. If the selection was for case insensitive then you should include either the
+first choice encountered, the last choice encountered or all capital letters.
+
+5. Before the program ends, it must reclaim the tree! You can do this by performing a post-order
+traversal, i.e., reclaiming the children nodes before reclaiming the node itself. Make sure you
+also reclaim the memory occupied by the string as well.
+
+6. It is required that you use getopt for processing the command line and use malloc or calloc and
+free functions for dynamically allocating and deallocating nodes and the buffers for the strings. It
+is required that you implement your own string comparison functions instead of using the
+corresponding libc functions.
+
+Here's an example:
+
+bash$ cat myfile
+
+bob is working.
+
+david is a new hire.
+
+Bob is working.
+
+alice is bob's boss.
+
+charles doesn't like bob.
+
+bash$ ./bstsort myfile
+
+1 alice is bob's boss.
+
+2 bob is working.
+
+1 charles doesn't like bob.
+
+1 david is a new hire.
+
+-------------------------------Summary--------------------------------------------------------------------	
+
+I need to get input file, and use a binary search three adt to sort the contents, then get the
+resulting sort and output it to another file.
+
+Portable executable name: bstsort
+
+CMD execution format:
+% bstsort [-c] [-o output_file_name] [input_file_name]
+
+-c denotes case sensitivity.
+-o deontes whether or not to output to a specific file or not.
+
+input_file_name denotes to use a specific file to get information from. Otherwise use stdin.
+
+if -o is not used. Use stdout
+
+All strings will be no more than 100 characters long. (I believe for cmd line args)
+
+States to make the binary search tree as input is read, but would be better to do it on a 
+string taken after.
+
+---------------------Rubric Requirements------------------------------------------------------------
+
+Zip File named FirstNameLastNameA1.zip using the student name.
+
+Makefile named Makefile.   //Done
+
+Typing make at the command line should create executable named bstsort.   //Done
+
+Make file should include a clean target which removed .o files.   //Need to make sure this works on ocelot...
+
+There should be no warnings during compile on ocelot.
+
+Only bstsort.c and Makefile are included in the input unless permission is given for any other files. 
+This includes Mac files or additional directories. 
+Extracting all files from your zip file should show only those listed files.
+
+Comment at the top of the file needs student name   //Done
+
+Comment at the top of the file needs the affirmation of Originality   //Done
+
+Comment at the top needs a program description   //Done
+
+Program should have consistent indentation.
+Consistent indentation with curly braces lined up in either of the two standard formats. 
+They can be lined up right above each other or the opening curly brace can be on the 
+right end of the line above with the block begins.   //Done
+
+Program should have good comments throughout the body and describing each function.   //Done
+
+Code should be readable with good variable and function names.   //Done
+
+No use of break or continue statements except in a switch.  //Fuck.
+
+Program must exit with a return code of 0 on success of and error code in other cases.   //Done
+
+The program used getopt to parse the command line.   //Done
+
+Whenever an error occurs on the command line the user is given the usage statement 
+and an appropriate error message if needed.   //Done
+
+The call to getopt had the correct parse string.   //Done
+
+A node structure is included.  //There is your answer.
+It should include the string, the count and the left and right pointers to child nodes.   //Done
+
+The program must dynamically allocate the memory for the nodes.   //Done
+
+The program must dynamically allocate the memory for the strings inside the nodes.   //Done
+
+The program must free the strings after the output is completed.   //Fuck
+
+The program must free the nodes after the output is completed.   //Fuck
+
+If the -c option is used the program will sort the data as case sensitive.
+This must be done with your own comparison functions, not the builtin ones strcmp()
+or strcasecmp() or any similar ones.   //Fuck
+
+
+---------------------------------------Notes------------------------------------------------------
+
+I might make a string handler if I have time... (So I have a sort of psuedo string class in c) // you overdid it
+
+fopen() also creates files. use write only indicator. fopen(fileptr, "w")   //Its ok.

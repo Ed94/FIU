@@ -1,0 +1,17 @@
+#Compling C code
+CC=gcc
+
+#Using debugger, have most warnings, and using the c11 standard.
+CFLAGS=-g-Wall-std=c11
+
+#The green part is the identifier of the final target. To the right are the requried objects to make this final target.
+gpa: L1_GradeCalc.o 
+	gcc -o ${gpa} L1_GradeCalc.o
+
+#This defines what the L1_GradeCalc.o target is and what it needs to be made (I think).
+L1_GradeCalc.o: L1_GradeCalc.c
+	gcc -c L1_GradeCalc.c 
+
+#Cleans up my object file, use rm *.o will clean all object files.
+clean:
+	rm -f L1_GradeCalc.o

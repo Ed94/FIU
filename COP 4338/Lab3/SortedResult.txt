@@ -1,0 +1,6 @@
+4     
+1     Bob is working.
+1     alice is bob's boss.
+1     bob is working.
+1     charles doesn't like bob
+1     david is a new hire.
